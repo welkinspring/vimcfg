@@ -1,0 +1,371 @@
+" vim configuration.
+" ----------------------------------------------------------
+" This is vim-plug tool for manager the pulgins.
+" ----------------------------------------------------------
+" Plugins will be downloaded under the specified directory.
+" you can specify the github plugins path, welkin declare
+" the list of plugins below.
+call plug#begin('~/.vim/plugged')
+
+" --- plugins has configured.
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
+"Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+"Plug 'ryanoasis/vim-devicons'
+"Plug 'ryanoasis/nerd-fonts'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'kien/ctrlp.vim'
+Plug 'majutsushi/tagbar'
+Plug 'brookhong/cscope.vim'
+Plug 'mhinz/vim-startify' " - a fancy start screen for vim.
+
+Plug 'vim-scripts/DoxygenToolkit.vim'
+
+" --- plugins new, need to learn and familiar it.
+Plug 'tpope/vim-fugitive' " - a git wrapper so awesome.
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-surround'
+Plug 'junegunn/seoul256.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'scrooloose/syntastic'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'othree/yajs.vim'
+Plug 'mitsuhiko/vim-jinja'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'ap/vim-css-color'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'easymotion/vim-easymotion'
+Plug 'SirVer/ultisnips'
+Plug 'vim-scripts/L9'
+
+
+Plug 'MarcWeber/vim-addon-mw-utils' " - interpret a fily by function and cache file automatically.
+"Plug 'tomtom/tlib_vim' " - Tjumps that lets users filter and select items from the jump list.
+Plug 'garbas/vim-snipmate' " - aims to provide support for textual snippets, such as for<tab> will extract for(i=0;...
+Plug 'honza/vim-snippets'
+"Plug 'edsono/vim-matchit'
+Plug 'kristijanhusak/vim-multiple-cursors'
+Plug 'henrik/vim-indexed-search'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  } " - Fuzzy finder
+Plug 'junegunn/fzf.vim'
+
+Plug 'vim-scripts/cfname' " - shows or jumps the c prototype of the function the cursor is in.
+
+" --- plugins themes and colors.
+Plug 'altercation/vim-colors-solarized'
+"Plug 'morhetz/gruvbox'
+"Plug 'kepbod/vim-hybrid'
+
+" --- list ends here. plugins become visible to vim after this call.
+call plug#end()
+
+" --------------------------------------------------------------
+" Below are the plguins configuration.
+" --------------------------------------------------------------
+" --- Plug scrooloose/nerdtree
+" This will open NERDTree automatically when vim starts up if no files were specified, say type vim . with local.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+" close vim if the only window left open is a NERTree.
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+map <F2> :NERDTreeToggle<CR>
+
+
+" --- Plug 'scrooloose/nerdcommenter'
+" Guided for use below table:
+" 5,cc :comment 5 lines one by one
+" 5,cu :uncomment 5 lines
+" 5,cm :comment 5 lines one time
+" ,cA  :insert /* */ and enter insert mode
+" add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+" align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+" set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+" add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+" allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+" enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+
+" --- Plug tiagofumo/vim-nerdtree-syntax-highlight
+" --- Plug ryanoasis/vim-devicons
+" --- Plug ryanoasis/nerd-fonts
+" NERDTree different highlighting and icons for different file extensions.
+" This plugin is intended to be used with vim-devicons and to use it you will
+" need to add a new font from nerd-fonts to your machine so you can see the
+" icons when using vim. TBD
+ 
+
+" --- Plug 'vim-airline/vim-airline'
+" --- Plug 'vim-airline/vim-airline-themes'
+function! AirlineInit()
+	let g:airline_section_a = airline#section#create(['mode',' ','branch'])
+	let g:airline_section_b = airline#section#create_left(['ffenc','hunks','%f'])
+	let g:airline_section_c = airline#section#create(['filetype'])
+	let g:airline_section_x = airline#section#create(['%P'])
+	let g:airline_section_y = airline#section#create(['%B'])
+	let g:airline_section_z = airline#section#create(['%l','%c'])
+endfunction
+autocmd VimEnter * call AirlineInit()
+" Smarter tab line automatically displays all buffers.
+" Separators can be configured independently for the tabline, so here is how you can define straight.
+let g:airline_theme='bubblegum'
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+"let g:airline_powerline_fonts=1
+"let g:airline#extensions#tabline#buffer_nr_show = 1
+"let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+
+
+" --- Plug 'kien/ctrlp.vim'
+let g:ctrlp_working_path_mode = ''
+let g:ctrlp_max_height=20
+let g:ctrlp_regexp = 1
+nnoremap <silent> <C-p> :ClearAllCtrlPCache<CR>:CtrlP<CR>
+nnoremap <silent> <c-x><C-p> :ClearAllCtrlPCache<CR>:CtrlPRoot<CR>
+
+" --- Plug 'majutsushi/tagbar'
+nmap <F4> :TagbarToggle<CR>
+
+
+" --- Plug 'brookhong/cscope.vim'
+"set tags=""
+"set cscopetag
+"set csto=0
+"set cscopeverbose
+"set cscopequickfix=""
+"let g:cscope_silent = 1
+"let g:cscope_open_location = 0
+"let g:cscope_interested_files = '\.c$\|\.h$'
+
+" a: Find this and let me select the mode
+" s: Find this C symbol
+" g: Find this definition
+" d: Find functions called by this function
+" c: Find functions calling this function
+" t: Find this text string
+" e: Find this egrep pattern
+" f: Find this file
+" i: Find files #including this file
+"nmap <C-\>a :call CscopeFindInteractive(expand('<cword>'))<CR>
+"nmap <C-\>s :call CscopeFind('s', expand('<cword>'))<CR>
+"nmap <C-\>g :call CscopeFind('g', expand('<cword>'))<CR>
+"nmap <C-\>d :call CscopeFind('d', expand('<cword>'))<CR>
+"nmap <C-\>c :call CscopeFind('c', expand('<cword>'))<CR>
+"nmap <C-\>t :call CscopeFind('t', expand('<cword>'))<CR>
+"nmap <C-\>e :call CscopeFind('e', expand('<cword>'))<CR>
+"nmap <C-\>f :call CscopeFind('f', expand('<cword>'))<CR>
+"nmap <C-\>i :call CscopeFind('i', expand('<cword>'))<CR>
+
+"map <silent><F10> :let &cscopequickfix=(&cscopequickfix == ""?"s-,g-,d-,c-,t-,e-,f-,i-":"")<CR>:call ShowCscopeMode()<CR>
+"function ShowCscopeMode()
+"	if (&cscopequickfix == "")
+"		echo "cscopequickfix disable"
+"	else
+"		echo "cscopequickfix enable"
+"	endif
+"endfunction
+
+
+" --- Plug 'mhinz/vim-startify'
+let g:startify_custom_header=[
+            \'   F2  NERTree 开关',
+            \'   F4  Tagbar 开关',
+            \'   F6  excute vimgrep',
+            \'   F7  插入函数注释',
+            \'   F9  save vim session',
+            \'   F10 cscopequickfix开关 (供cscope选择index)',
+            \'   F11 paste/nomal模式切换',
+            \'   F12 鼠标vim/xterm模式切换',
+            \'   ',
+            \'   C-p 打开当前dir下的文件',
+            \'   C-t 新建termital',
+            \'   C-f 模糊搜索所有打开的buffer',
+            \'   ',
+            \'   [n],cm 光标以下count行尝注释掉(7,cm)',
+            \'   [n],cu 光标以下count行逐行取消注释(7,cu)',
+            \'   ,cA 在行尾插入 /* */,并且进入插入模式。',
+            \'   ',
+            \'   Alt + 方向键 切换窗口',
+            \'   Alt + -= 左右移动buffer',
+            \'   zR 打开折叠',
+            \'   ',
+            \'                         ']
+
+
+" --- Plug 'vim-scripts/DoxygenToolkit.vim'
+let g:DoxygenToolkit_briefTag_pre="@brief "
+let g:DoxygenToolkit_paramTag_pre="@Param "
+let g:DoxygenToolkit_returnTag="@return "
+let g:DoxygenToolkit_authorName="Jeff Cheng <welkinspring@163.com>"
+let g:DoxygenToolkit_briefTag_funcName="yes"
+let g:doxygen_enhanced_color=1
+nnoremap <silent><F7> :Dox<CR>
+inoremap <silent><F7> <esc>:Dox<CR>:<BS>i
+
+" --- plugins themes and colors.
+" --- Plug altercation/vim-colors-solarized
+syntax enable
+set background=dark
+colorscheme solarized
+
+
+" --------------------------------------------------------------
+" vim personal others shortcut key configuration.
+" --------------------------------------------------------------
+" --- use Alt + Num to switch buffer, C-c to close buffer.
+"if ! hasmapto('') || !hasmapto('<M-1>')
+	"NORMAL mode bindings for vim( terminal)
+"	noremap <unique> <script> :bn<CR>
+"	noremap <unique> <script> :bp<CR>
+"	noremap <C-c> :bd<CR>
+	
+	"INSERT mode bindings for vim(terminal)
+"	inoremap <unique> <script> <esc>:bn<CR>:<BS>i
+"	inoremap <unique> <script> <esc>:bp<CR>:<BS>i
+"	inoremap <C-c> <esc>:bd<CR>:<BS>i
+"endif
+
+
+
+" --- use Alt + direction key to switch windows.
+nmap <C-j> <C-W>j
+nmap <C-k> <C-W>k
+nmap <C-h> <C-W>h
+nmap <C-l> <C-W>l
+"noremap <unique> <script> left> <C-w>h
+"noremap <unique> <script> up> <C-w>k
+"noremap <unique> <script> down> <C-w>j
+"noremap <unique> <script> right> <C-w>l
+
+" --- goto last time modify location.
+"autocmd BufReadPost * if line("'\"") | exe "normal '\"" | endif
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+set cindent
+set cinoptions+=:0
+set pastetoggle=<F11>
+
+set mouse=a
+"set mouse=v
+map <silent><F12> :let &mouse=(&mouse == "a"?"":"a")<CR>:call ShowMouseMode()<CR>
+imap <silent><F12> <esc>:let &mouse=(&mouse == "a"?"":"a")<CR>:call ShowMouseMode()<CR>:<BS>i
+function ShowMouseMode()
+	if (&mouse == 'a')
+		echo "mouse-vim"
+	else
+		echo "mouse-xterm"
+	endif
+endfunction
+
+autocmd BufNewFile *.sh,*.c exec ":call AutoSetFileHead()"
+function! AutoSetFileHead()
+	if &filetype == 'sh'
+		call setline(1, "\#!/bin/sh")
+	endif
+
+	if &filetype == 'c'
+		call setline(1, "\#include <stdio.h>")
+		call append(1, "\#include <stdlib.h>")
+		call append(2, "\#include <string.h>")
+	endif
+
+	normal G
+	normal o
+	normal o
+endfunc
+
+noremap ; :
+nnoremap <silent> <C-f> :Lines<CR>
+
+" --------------------------------------------------------------
+" vim personal style and format stuff configuration.
+" --------------------------------------------------------------
+set nocompatible
+filetype off
+
+filetype plugin indent on
+syntax on
+set ruler
+set number
+set cursorline " -highlight current line.
+set ignorecase smartcase
+set hlsearch
+set noincsearch
+set noerrorbells
+set novisualbell
+set t_vb=
+set t_Co=256
+set magic
+set hidden
+set backspace=indent,eol,start
+set cmdheight=2
+set laststatus=2
+set nofoldenable
+set scrolloff=3
+set wildmenu
+set wildmode=list:longest,full
+set fencs=utf-8,gbk
+
+let $VIMFILES = $HOME.'/.vim'
+autocmd filetype c set dictionary=$VIMFILES/dict/c.dict
+
+" --- global leader.
+let mapleader = ";"
+let g:mapleader = ";"
+" --- fast save.
+nmap <silent> <leader>ww :w<cr>
+nmap <silent> <leader>wf :w!<cr>
+
+" --- visiual style.
+set history=500
+set autoread
+set sessionoptions-=curdir
+set sessionoptions+=sesdir
+
+
+let g:netrw_winsize = 30
+map <F9> :mksession vim_session.vim<cr>:wviminfo vim_session.viminfo<cr>
+"map <F10> :source vim_session.vim<cr>:rviminfo vim_session.viminfo<cr>
+map <F6> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
+
+"set updatetime=100
+set smartindent
+set tabstop=8
+set shiftwidth=8
+
+set nocp
+set completeopt=menuone,menu,longest
+
+if has("cscope")
+	set csprg=/usr/bin/cscope
+	set csto=1
+	set cst
+	set nocsverb
+
+	set csverb
+	if filereadable("cscope.out")
+		cs add ./cscope.out
+	endif
+endif
+nmap <silent> <C-@>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+nmap <silent> <C-@>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+nmap <silent> <C-@>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+nmap <silent> <C-@>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+nmap <silent> <C-@>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+nmap <silent> <C-@>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+nmap <silent> <C-@>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+nmap <silent> <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+map <F12> :!find . -name "*.h" -o -name "*.c" -o -name "*.cc" -o -name "*.cpp*"  > cscope.files; cscope -bkq -i cscope.files; rm tags -f; ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>  
