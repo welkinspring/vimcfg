@@ -328,7 +328,6 @@ let g:mapleader = ";"
 " --- fast save.
 nmap <silent> <leader>ww :w<cr>
 nmap <silent> <leader>wf :w!<cr>
-
 " --- visiual style.
 set history=500
 set autoread
