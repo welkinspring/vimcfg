@@ -3,13 +3,14 @@
 " This is vim-plug tool for manager the pulgins.
 " ----------------------------------------------------------
 " Plugins will be downloaded under the specified directory.
-" you can specify the github plugins path, Jeff declare
+" you can specify the github plugins path, welkin declare
 " the list of plugins below.
 call plug#begin('~/.vim/plugged')
 
 " --- plugins has configured.
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 "Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 "Plug 'ryanoasis/vim-devicons'
 "Plug 'ryanoasis/nerd-fonts'
@@ -18,7 +19,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'kien/ctrlp.vim'
 Plug 'majutsushi/tagbar'
 Plug 'brookhong/cscope.vim'
-"Plug 'mhinz/vim-startify' " - a fancy start screen for vim.
+"Plug 'mhinz/vim-"startify' " - a fancy start screen for vim.
 
 Plug 'vim-scripts/DoxygenToolkit.vim'
 
@@ -71,6 +72,7 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeShowHidden = 1
 map <F2> :NERDTreeToggle<CR>
 
 
@@ -95,6 +97,20 @@ let g:NERDCommentEmptyLines = 1
 " enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
 
+" --- Plug 'Xuyuanp/nerdtree-git-plugin'
+"vimscript
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
 
 " --- Plug tiagofumo/vim-nerdtree-syntax-highlight
 " --- Plug ryanoasis/vim-devicons
@@ -180,29 +196,29 @@ nmap <F4> :TagbarToggle<CR>
 
 
 " --- Plug 'mhinz/vim-startify'
-"let g:startify_custom_header=[
-"            \'   F2  NERTree 开关',
-"            \'   F4  Tagbar 开关',
-"            \'   F6  excute vimgrep',
-"            \'   F7  插入函数注释',
-"            \'   F9  save vim session',
-"            \'   F10 cscopequickfix开关 (供cscope选择index)',
-"            \'   F11 paste/nomal模式切换',
-"            \'   F12 鼠标vim/xterm模式切换',
-"            \'   ',
-"            \'   C-p 打开当前dir下的文件',
-"            \'   C-t 新建termital',
-"            \'   C-f 模糊搜索所有打开的buffer',
-"            \'   ',
-"            \'   [n],cm 光标以下count行尝注释掉(7,cm)',
-"            \'   [n],cu 光标以下count行逐行取消注释(7,cu)',
-"            \'   ,cA 在行尾插入 /* */,并且进入插入模式。',
-"            \'   ',
-"            \'   Alt + 方向键 切换窗口',
-"            \'   Alt + -= 左右移动buffer',
-"            \'   zR 打开折叠',
-"            \'   ',
-"            \'                         ']
+" let g:startify_custom_header=[
+"             \'   F2  NERTree 开关',
+"             \'   F4  Tagbar 开关',
+"             \'   F6  excute vimgrep',
+"             \'   F7  插入函数注释',
+"             \'   F9  save vim session',
+"             \'   F10 cscopequickfix开关 (供cscope选择index)',
+"             \'   F11 paste/nomal模式切换',
+"             \'   F12 鼠标vim/xterm模式切换',
+"             \'   ',
+"             \'   C-p 打开当前dir下的文件',
+"             \'   C-t 新建termital',
+"             \'   C-f 模糊搜索所有打开的buffer',
+"             \'   ',
+"             \'   [n],cm 光标以下count行尝注释掉(7,cm)',
+"             \'   [n],cu 光标以下count行逐行取消注释(7,cu)',
+"             \'   ,cA 在行尾插入 /* */,并且进入插入模式。',
+"             \'   ',
+"             \'   Alt + 方向键 切换窗口',
+"             \'   Alt + -= 左右移动buffer',
+"             \'   zR 打开折叠',
+"             \'   ',
+"             \'                         ']
 
 
 " --- Plug 'vim-scripts/DoxygenToolkit.vim'
@@ -218,12 +234,9 @@ inoremap <silent><F7> <esc>:Dox<CR>:<BS>i
 " --- plugins themes and colors.
 " --- Plug altercation/vim-colors-solarized
 syntax enable
+set background=dark
 colorscheme solarized
-if has('gui_running')
-	set background=light
-else
-	set background=dark
-endif
+
 
 " --------------------------------------------------------------
 " vim personal others shortcut key configuration.
@@ -303,6 +316,7 @@ filetype plugin indent on
 syntax on
 set ruler
 set number
+set cursorcolumn " -highlight current column.
 set cursorline " -highlight current line.
 set ignorecase smartcase
 set hlsearch
@@ -321,6 +335,8 @@ set scrolloff=3
 set wildmenu
 set wildmode=list:longest,full
 set fencs=utf-8,gbk
+set shell=sh
+set autoindent
 
 let $VIMFILES = $HOME.'/.vim'
 autocmd filetype c set dictionary=$VIMFILES/dict/c.dict
@@ -331,7 +347,6 @@ let g:mapleader = ";"
 " --- fast save.
 nmap <silent> <leader>ww :w<cr>
 nmap <silent> <leader>wf :w!<cr>
-
 " --- visiual style.
 set history=500
 set autoread
@@ -353,7 +368,7 @@ set nocp
 set completeopt=menuone,menu,longest
 
 if has("cscope")
-	set csprg=/usr/bin/cscope
+	set csprg=/usr/local/bin/cscope
 	set csto=1
 	set cst
 	set nocsverb
@@ -371,4 +386,7 @@ nmap <silent> <C-@>e :cs find e <C-R>=expand("<cword>")<CR><CR>
 nmap <silent> <C-@>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
 nmap <silent> <C-@>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
 nmap <silent> <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR>
-map <F12> :!find . -name "*.h" -o -name "*.c" -o -name "*.cc" -o -name "*.cpp*"  > cscope.files; cscope -bkq -i cscope.files; rm tags -f; ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>  
+map <F12> :!find . -name "*.h" -o -name "*.c" -o -name "*.cc" -o -name "*.cpp*"  > cscope.files; cscope -bkq -i cscope.files; rm tags -f; ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR> 
+
+
+
