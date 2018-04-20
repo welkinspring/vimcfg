@@ -1,9 +1,10 @@
-# personal_vimcfg
-
-Install:
+# This is a vimrc configuration startup script:
+```
 step 1:
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-	         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	change permission for setup.sh
+	chmod +x ./setup.sh
+	run `./setup.sh`
 
 step 2:
-vi .vimrc, then type "PlugInstall" in vim command mode.
+	opening with vi .vimrc and running with :PlugInstall in vim command mode/
+
